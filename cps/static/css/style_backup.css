@@ -29,8 +29,7 @@ html.http-error {
 }
 
 body {
-  background: #FFF;
-  background-color: #FFF;
+  background: #f2f2f2;
   margin-bottom: 40px;
 }
 
@@ -48,9 +47,8 @@ body {
 }
 
 body h2 {
-  font-family: 'Playfair Display', serif;
-  font-weight: 600;
-  color: rgb(0, 0, 0);
+  font-weight: normal;
+  color: #444;
 }
 
 a,
@@ -145,17 +143,7 @@ table .bg-dark-danger a { color: #fff; }
   display: flex;
   flex-direction: column;
 }
-
-.cover {
-  margin-bottom: 30px; 
-}
-
-.cover-overlay {
-  height: 225px;
-  top: 0;
-  left: 0;
-  background: linear-gradient(to right, rgb(29, 27, 27,0.3) 2px, rgba(255, 255, 255, 0.5) 4px, rgba(255, 255, 255, 0.3) 5px, rgba(255, 255, 255, 0.3) 10px, transparent 6px, transparent 10px, rgba(255, 255, 255, 0.25) 17px, transparent 22px);
-}
+.cover { margin-bottom: 10px; }
 
 .container-fluid .book .cover {
   height: 225px;
@@ -172,10 +160,9 @@ table .bg-dark-danger a { color: #fff; }
 .container-fluid .single .cover img {
   border: 1px solid #fff;
   box-sizing: border-box;
-  
   -webkit-box-shadow: 0 5px 8px -6px #777;
-  -moz-box-shadow: 0 5px 8px -6px rgb(66, 65, 65);
-  box-shadow: 0 5px 8px -6px rgb(59, 59, 59);
+  -moz-box-shadow: 0 5px 8px -6px #777;
+  box-shadow: 0 5px 8px -6px #777;
 }
 
 .datepicker.form-control {
@@ -186,17 +173,17 @@ table .bg-dark-danger a { color: #fff; }
   bottom: 0;
   height: 100%;
   position: absolute;
-  border-radius: 1px;
 }
 
 .container-fluid .book .cover span img {
-  border: 0px solid rgba(19, 19, 19, 0.2);
-  border-radius: 3px;
+  border: 1px solid #fff;
   position: relative;
   height: 100%;
+
   box-sizing: border-box;
-  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
-  z-index:-1;
+  -webkit-box-shadow: 0 5px 8px -6px #777;
+  -moz-box-shadow: 0 5px 8px -6px #777;
+  box-shadow: 0 5px 8px -6px #777;
 }
 
 .container-fluid .book .meta { margin-top: 10px; }

@@ -97,3 +97,7 @@ For further information, How To's and FAQ please check the [Wiki](https://github
 # Contributing to Calibre-Web
 
 Please have a look at our [Contributing Guidelines](https://github.com/janeczku/calibre-web/blob/master/CONTRIBUTING.md) 
+
+
+# Steps to customize
+- Navigate to "profile" and uncheck "Show Random Books in Detail View"

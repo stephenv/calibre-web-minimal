@@ -64,7 +64,7 @@
 </div>
 {% endif %}
 <div class="discover load-more">
-  <h2 class="{{title}}">{{title}}</h2>
+  <h2 class="{{title}}">{% if title != 'Books' %}{{title}}{% else %} Library {% endif %}</h2>
    {% if page != 'discover' %}
     <div class="filterheader hidden-xs">
     {% if page == 'hot' %}
@@ -98,6 +98,7 @@
             </span>
           </a>
       </div>
+      <!--
       <div class="meta">
         <a href="{{ url_for('web.show_book', book_id=entry.Books.id) }}" {% if simple==false %}data-toggle="modal" data-target="#bookDetailsModal" data-remote="false"{% endif %}>
           <p title="{{ entry.Books.title }}" class="title">{{entry.Books.title|shortentitle}}</p>
@@ -150,6 +151,7 @@
         </div>
         {% endif %}
       </div>
+      -->
     </div>
     {% endfor %}
   {% endif %}
