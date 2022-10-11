@@ -357,6 +357,8 @@ def get_sort_function(sort_param, data):
 
 
 def render_books_list(data, sort_param, book_id, page):
+    counter = calibre_db.session.query(db.Books).count()
+    authors = calibre_db.session.query(db.Authors).count()
     order = get_sort_function(sort_param, data)
     if data == "rated":
         return render_rated_books(page, book_id, order=order)
@@ -401,7 +403,7 @@ def render_books_list(data, sort_param, book_id, page):
                                                                 db.books_series_link,
                                                                 db.Books.id == db.books_series_link.c.book,
                                                                 db.Series)
-        return render_title_template('index.html', random=random, entries=entries, pagination=pagination,
+        return render_title_template('index.html', bookcounter=counter, authorcounter=authors, random=random, entries=entries, pagination=pagination,
                                      title=_(u"Books"), page=website, order=order[1])
 
 

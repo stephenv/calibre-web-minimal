@@ -70,6 +70,9 @@
   {% else %}
   <h2 class="Library">Library</h2>
   {% endif %}
+
+
+
    {% if page != 'discover' %}
    <!--
     <div class="filterheader">
@@ -91,7 +94,8 @@
       {% endif %}
     {% endif %}
     </div> -->
-    <div class="filterheader">
+
+    <div class="filterheader filterheader-library">
       <div class="dropdown">
         <button class="btn btn-default dropdown-toggle sort-menu" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
           <span>Sort by</span>
@@ -132,9 +136,23 @@
           <li><a href="{{url_for('web.books_list', data=page, book_id=id, sort_param='seriesdesc')}}">Series, reversed</a></li>
           {% endif %}
         </ul>
+
+        {% if title == 'Books' %}
+        <span class="library-metrics">
+         {{bookcounter}} Books, {{authorcounter}} Authors
+        </span>
+        {% else %}
+        {% endif %}
+
       </div>
+
+
+
     </div>
    {% endif %}
+
+
+
   <div class="row display-flex">
     {% if entries[0] %}
     {% for entry in entries %}

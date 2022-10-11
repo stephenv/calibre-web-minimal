@@ -32,6 +32,7 @@ body {
   background: #FFF;
   background-color: #FFF;
   margin-bottom: 40px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .http-error body {
@@ -54,10 +55,10 @@ body h2 {
 }
 
 h2.Library {
-    font-family: 'Playfair Display', serif;
-    font-weight: 600;
+  font-family: 'Playfair Display', serif;
+    font-weight: 700;
     font-size: 3.4rem;
-    letter-spacing: -0.1rem;
+    letter-spacing: -0.08rem;
     color: rgb(0, 0, 0);
     margin-top:5px;
 }
@@ -95,6 +96,34 @@ a,
 .sort-menu {
   border:0px;
   text-transform: uppercase;
+  letter-spacing: 0.08rem;
+  font-size: 1.13rem;
+  padding-left: 2px;
+  padding-top:15px;
+  padding-bottom:10px;
+}
+.sort-menu:hover {
+  background: transparent;
+  color: rgb(0, 0, 0)
+}
+
+.sort-menu:active {
+  background-color: transparent;
+}
+
+.btn-default.active.focus, .btn-default.active:focus, .btn-default.active:hover, .btn-default:active.focus, .btn-default:active:focus, .btn-default:active:hover, .open>.dropdown-toggle.btn-default.focus, .open>.dropdown-toggle.btn-default:focus, .open>.dropdown-toggle.btn-default:hover {
+  color: #333;
+  background-color: transparent;
+  border-color: #8c8c8c;
+}
+
+.library-metrics {
+  float: right;
+  font-size: 1.3rem;
+  color: rgba(0, 0, 0, 0.5);
+  padding-top:14px;
+  padding-bottom:13px;
+  padding-right:2px;
 }
 
 .editable-click,
@@ -116,6 +145,25 @@ a.editable-click:hover { border-bottom: None; }
 table .bg-primary a { color: #fff; }
 table .bg-dark-danger a { color: #fff; }
 .book-meta .identifiers a { display: inline; }
+
+.left-nav{
+
+  padding-left:15px;
+  padding-right: 15px;
+}
+
+.left-nav-list li a{
+  color: #6e6e6e;
+
+}
+
+li.menu-divider {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: #E5E9EC;
+  margin: 10px 0;
+}
 
 .navigation .create-shelf a {
   color: #fff;
@@ -172,7 +220,7 @@ table .bg-dark-danger a { color: #fff; }
   height: 225px;
   top: 0;
   left: 0;
-  background: linear-gradient(to right, rgb(29, 27, 27,0.3) 2px, rgba(255, 255, 255, 0.5) 4px, rgba(255, 255, 255, 0.3) 4px, rgba(0, 0, 0, 0.3) 2px, rgba(0, 0, 0, 0.1) 6px, rgba(255, 255, 255, 0.3) 10px, transparent 6px, transparent 10px, rgba(255, 255, 255, 0.14) 10px, transparent 22px);
+  background: linear-gradient(to right, rgb(29, 27, 27,0.3) 2px, rgba(255, 255, 255, 0.5) 4px, rgba(255, 255, 255, 0.3) 4px, rgba(0, 0, 0, 0.3) 2px, rgba(0, 0, 0, 0.1) 6px, rgba(255, 255, 255, 0.3) 10px, transparent 6px, transparent 10px, rgba(255, 255, 255, 0.15) 10px, transparent 22px);
 }
 
 .container-fluid .book .cover {
@@ -279,6 +327,9 @@ span.glyphicon.glyphicon-tags {
 .navbar-default {
   background-color: #ffffff;
   border-color: transparent;
+}
+.navbar{
+margin-bottom: 0px;
 }
 
 .navbar-form {
@@ -463,6 +514,12 @@ input.pill:not(:checked) + label .glyphicon { display: none; }
 .filterheader { margin-bottom: 20px; }
 .errorlink { margin-top: 20px; }
 .emailconfig { margin-top: 10px; }
+
+.filterheader-library { 
+  border-top:1px solid rgb(230, 228, 228);
+  border-bottom:1px solid rgb(230, 228, 228);
+  margin-bottom: 15px; 
+}
 
 .modal-body .comments {
   max-height: 300px;
