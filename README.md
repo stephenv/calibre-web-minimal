@@ -2,7 +2,7 @@
 
 *Currently work in progress - a stable version is not yet complete*
 
-Calibre-Web-Minimal is fork of Calibre-Web ([version 0.6.19](https://github.com/janeczku/calibre-web/releases/tag/0.6.19)). The user interface and experience has been reimagined for use on iOS devices. It is strongly influenced by Apple Books mobile apps.  
+Calibre-Web-Minimal is fork of Calibre-Web ([version 0.6.19](https://github.com/janeczku/calibre-web/releases/tag/0.6.19)). The user interface and experience has been reimagined for use on iOS devices and is strongly influenced by 'Apple Books'.  
 
 [Calibre-Web](https://github.com/janeczku/calibre-web) is a web app providing a clean interface for browsing, reading and downloading eBooks using a valid [Calibre](https://calibre-ebook.com) database.
 
