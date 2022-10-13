@@ -102,11 +102,16 @@
 }
 }
 
-@media (min-width: 1750px){
+@media (min-width: 1720px){
   .col-sm-3 {
       width: 16%;
   }
   }
+@media (min-width: 2300px){
+    .col-sm-3 {
+        width: 14%;
+    }
+}
 
 @media (min-width: 2000px){
   .container-fluid .book .cover {
