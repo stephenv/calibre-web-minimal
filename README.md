@@ -12,16 +12,33 @@ Calibre-Web-Minimal is fork of Calibre-Web ([version 0.6.19](https://github.com/
 
 ## Installation
 
-#### Installation via pip
-1. To avoid problems with already installed python dependencies, it's recommended to create a virtual environment for Calibre-Web
-2. Install Calibre-Web via pip with the command `pip install calibreweb` (Depending on your OS and or distro the command could also be `pip3`). 
-3. Optional features can also be installed via pip, please refer to [this page](https://github.com/janeczku/calibre-web/wiki/Dependencies-in-Calibre-Web-Linux-and-Windows) for details 
-4. Calibre-Web can be started afterwards by typing `cps` 
+#### Manual installation from source
+
+This fork must be manually installed (“from source”), follow the procedure below. For Windows pip and venv come with the basic installation. On Windows, the python binary can be found after installing the virtual environment under .\venv\script\python3.exe  
+
+1. Make sure you have installed pip and also venv for your python version. If missing, install it by the package manager of your distribution (e.g., apt for debian like distributions)
+
+    - `sudo apt install python3-pip python3-venv`
+
+2. Go to the folder where you want to install Calibre-Web-Minimal, e.g., `/opt/calibre-web-minimal `
+
+3. Create virtual environment for calibre web in folder venv 
+    - `python3 -m venv venv`
+
+4. Install dependencies by running `./venv/bin/python3 -m pip install -r requirements.txt`
+
+5. Download and extract Calibre-Web-Minimal into the current folder (in this example /opt/calibre-web-minimal)
+
+6. Execute the command: `./venv/bin/python3 cps.py` (or `nohup ./venv/bin/python3 cps.py` - recommended if you want to exit the terminal window)
+
+Issues with Ubuntu:
+Please note that running the above install command can fail on some versions of Ubuntu, saying `"can't combine user with prefix"`. This is a [known bug](https://github.com/pypa/pip/issues/3826) and can be remedied by using the command `./venv/bin/python3 -m pip install --system -r requirements.txt` instead.
+
+Remark: All config files (settings database, log files) are stored in Calibre-Web root page (in this example /opt/calibre-web-minimal). Additional config files, such as the config files for gdrive and gmail have to be placed there too.
 
 #### Steps to complete customization
 1. Navigate to "profile" and uncheck "Show Random Books in Detail View"
 
-In the Calibre-Web Wiki there are also examples for: a [manual installation](https://github.com/janeczku/calibre-web/wiki/Manual-installation)
 
 ## Quick start
 
