@@ -63,6 +63,9 @@
     height: 260px !important;
     position: relative;
   }
+  .cover{
+    min-width: 175px;
+  }
   .cover-overlay {
     height: 250px !important;
     top: 0;
@@ -74,10 +77,36 @@
     display: block;
     max-width: 100%;
     height: auto;
-    min-height:250px;
+    height:250px;
   }
 
 }
+
+
+
+@media (min-width: 592px){
+  .col-sm-3 {
+      width: 33%;
+  }
+  }
+
+  @media (min-width: 810px){
+    .col-sm-3 {
+        width: 25%;
+    }
+  }
+
+@media (min-width: 1100px){
+.col-sm-3 {
+    width: 20%;
+}
+}
+
+@media (min-width: 1750px){
+  .col-sm-3 {
+      width: 16%;
+  }
+  }
 
 @media (min-width: 2000px){
   .container-fluid .book .cover {
@@ -359,6 +388,7 @@ li.menu-divider {
 
 .cover {
   margin-bottom: 30px; 
+  margin-left:5px;
 }
 
 .cover-overlay {
