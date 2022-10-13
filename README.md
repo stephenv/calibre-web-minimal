@@ -14,7 +14,7 @@ Calibre-Web-Minimal is fork of Calibre-Web ([version 0.6.19](https://github.com/
 
 #### Manual installation from source
 
-This fork must be manually installed (“from source”), follow the procedure below. For Windows pip and venv come with the basic installation. On Windows, the python binary can be found after installing the virtual environment under .\venv\script\python3.exe  
+This fork must be manually installed (“from source”) following the procedure below. For Windows pip and venv come with the basic installation. On Windows, the python binary can be found after installing the virtual environment under .\venv\script\python3.exe  
 
 1. Make sure you have installed pip and also venv for your python version. If missing, install it by the package manager of your distribution (e.g., apt for debian like distributions)
 
