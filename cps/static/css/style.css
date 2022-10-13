@@ -203,13 +203,15 @@ body h2 {
 h2.Library {
   font-family: 'Playfair Display', serif;
     font-weight: 700;
-    font-size: 3.4rem;
+    font-size: 3.5rem;
     color: rgb(0, 0, 0);
     margin-top:5px;
 }
 
 .navbar-left {
-  display:none
+  display: none;
+  margin-left:1.5%;
+  margin-right:1.5%;
 }
 
 @media screen and (min-width: 768px) {
