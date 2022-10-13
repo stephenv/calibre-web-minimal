@@ -39,12 +39,60 @@
     <div class="navbar navbar-default navbar-static-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
+          <!--
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">{{_('Toggle Navigation')}}</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
+          -->
+
+          {% if g.user.is_authenticated or g.allow_anonymous %}
+          <div class="btn-group btn-group-mobile" role="group" aria-label="User menu">
+                
+            <button id="user-menu" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+              
+              <span class=""><img class='img-circle' alt="{{g.user.name}}" src='{{ url_for('static', filename='img/profile.png') }}' /></span> 
+            </button>
+            <ul id="add-to-shelves" class="dropdown-menu pull-right" aria-labelledby="add-to-shelf">
+                   
+                  <li><span class="glyphicon glyphicon-search"><span class="hidden-sm"></span>{{g.user.name}}</li>
+                  <li role="separator" class="divider"></li>
+                  {% if g.user.is_authenticated or g.allow_anonymous %}
+                    <li><a href="{{url_for('search.advanced_search')}}" id="advanced_search"><span class="glyphicon glyphicon-search"></span><span class="hidden-sm"> {{_('Advanced Search')}}</span></a></li>
+                  {% endif %}
+                  {% if g.user.role_upload() and g.allow_upload %}
+                  <li>
+                    <form id="form-upload" class="navbar-form menu-upload-form" action="{{ url_for('edit-book.upload') }}" data-title="{{_('Uploading...')}}" data-footer="{{_('Close')}}" data-failed="{{_('Error')}}" data-message="{{_('Upload done, processing, please wait...')}}" method="post" enctype="multipart/form-data">
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                      <div class="form-group form-group-upload">
+                        <span class="btn btn-default btn-file"><span class="glyphicon glyphicon-download"></span><!--{{_('Upload')}}-->Upload book<input id="btn-upload" name="btn-upload"
+                        type="file" accept="{% for format in accept %}.{% if format != ''%}{{format}}{% else %}*{% endif %}{{ ',' if not loop.last }}{% endfor %}" multiple></span>
+                      </div>
+                    </form>
+                  </li>
+                  {% endif %}
+                  <li role="separator" class="divider"></li>
+                  <li><a id="top_user" data-text="{{_('Account')}}" href="{{url_for('web.profile')}}"><span class="glyphicon glyphicon-user"></span> <span class="hidden-sm">Profile</span></a></li>
+                  {% if not g.user.is_anonymous and not simple%}
+                  <li><a id="top_tasks" href="{{url_for('tasks.get_tasks_status')}}"><span class="glyphicon glyphicon-tasks"></span> <span class="hidden-sm">{{_('Tasks')}}</span></a></li>
+                  {% endif %}
+                  {% if g.user.role_admin() %}
+                  <li><a id="top_admin" data-text="{{_('Settings')}}" href="{{url_for('admin.admin')}}"><span class="glyphicon glyphicon-dashboard"></span> <span class="hidden-sm">{{_('Admin')}}</span></a></li>
+                  {% endif %}
+                  <li role="separator" class="divider"></li>
+                  {% if not g.user.is_anonymous %}
+                  <li id="nav_about" {% if page == 'stat' %}class="active"{% endif %}><a href="{{url_for('about.stats')}}"><span class="glyphicon glyphicon-info-sign"></span> {{_('About')}}</a></li>
+                  {% endif %}
+                  <li role="separator" class="divider"></li>
+                  {% if not g.user.is_anonymous %}
+                  <li><a id="logout" href="{{url_for('web.logout')}}"><span class="glyphicon glyphicon-log-out"></span> <span class="hidden-sm">{{_('Logout')}}</span></a></li>
+                  {% endif %}
+            </ul>
+          </div>
+          {% endif %}
+
           <!-- <a class="navbar-brand" href="{{url_for('web.index')}}">{{instance}}</a> -->
         </div>
         {% if g.user.is_authenticated or g.allow_anonymous %}
@@ -60,12 +108,57 @@
         {% endif %}
         <div class="navbar-collapse collapse">
           {% if g.user.is_authenticated or g.allow_anonymous %}
+          <!--
           <ul class="nav navbar-nav ">
             <li><a href="{{url_for('search.advanced_search')}}" id="advanced_search"><span class="glyphicon glyphicon-search"></span><span class="hidden-sm"> {{_('Advanced Search')}}</span></a></li>
           </ul>
+          -->
           {% endif %}
           <ul class="nav navbar-nav navbar-right" id="main-nav">
             {% if g.user.is_authenticated or g.allow_anonymous %}
+              <div class="btn-group" role="group" aria-label="User menu">
+                
+                <button id="user-menu" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                  
+                  <span class=""><img class='img-circle' alt="{{g.user.name}}" src='{{ url_for('static', filename='img/profile.png') }}' /></span> 
+                </button>
+                <ul id="user-menu-list" class="dropdown-menu" aria-labelledby="add-to-shelf">
+                       
+                      <li><span class="glyphicon glyphicon-search"><span class="hidden-sm"></span>{{g.user.name}}</li>
+                      <li role="separator" class="divider"></li>
+                      {% if g.user.is_authenticated or g.allow_anonymous %}
+                        <li><a href="{{url_for('search.advanced_search')}}" id="advanced_search"><span class="glyphicon glyphicon-search"></span><span class="hidden-sm"> {{_('Advanced Search')}}</span></a></li>
+                      {% endif %}
+                      {% if g.user.role_upload() and g.allow_upload %}
+                      <li>
+                        <form id="form-upload" class="navbar-form menu-upload-form" action="{{ url_for('edit-book.upload') }}" data-title="{{_('Uploading...')}}" data-footer="{{_('Close')}}" data-failed="{{_('Error')}}" data-message="{{_('Upload done, processing, please wait...')}}" method="post" enctype="multipart/form-data">
+                          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                          <div class="form-group form-group-upload">
+                            <span class="btn btn-default btn-file"><span class="glyphicon glyphicon-download"></span><!--{{_('Upload')}}-->Upload book<input id="btn-upload" name="btn-upload"
+                            type="file" accept="{% for format in accept %}.{% if format != ''%}{{format}}{% else %}*{% endif %}{{ ',' if not loop.last }}{% endfor %}" multiple></span>
+                          </div>
+                        </form>
+                      </li>
+                      {% endif %}
+                      <li role="separator" class="divider"></li>
+                      <li><a id="top_user" data-text="{{_('Account')}}" href="{{url_for('web.profile')}}"><span class="glyphicon glyphicon-user"></span> <span class="hidden-sm">Profile</span></a></li>
+                      {% if not g.user.is_anonymous and not simple%}
+                      <li><a id="top_tasks" href="{{url_for('tasks.get_tasks_status')}}"><span class="glyphicon glyphicon-tasks"></span> <span class="hidden-sm">{{_('Tasks')}}</span></a></li>
+                      {% endif %}
+                      {% if g.user.role_admin() %}
+                      <li><a id="top_admin" data-text="{{_('Settings')}}" href="{{url_for('admin.admin')}}"><span class="glyphicon glyphicon-dashboard"></span> <span class="hidden-sm">{{_('Admin')}}</span></a></li>
+                      {% endif %}
+                      <li role="separator" class="divider"></li>
+                      {% if not g.user.is_anonymous %}
+                      <li id="nav_about" {% if page == 'stat' %}class="active"{% endif %}><a href="{{url_for('about.stats')}}"><span class="glyphicon glyphicon-info-sign"></span> {{_('About')}}</a></li>
+                      {% endif %}
+                      <li role="separator" class="divider"></li>
+                      {% if not g.user.is_anonymous %}
+                      <li><a id="logout" href="{{url_for('web.logout')}}"><span class="glyphicon glyphicon-log-out"></span> <span class="hidden-sm">{{_('Logout')}}</span></a></li>
+                      {% endif %}
+                </ul>
+              </div>
+              <!--
               {% if g.user.role_upload() and g.allow_upload %}
                   <li>
                     <form id="form-upload" class="navbar-form" action="{{ url_for('edit-book.upload') }}" data-title="{{_('Uploading...')}}" data-footer="{{_('Close')}}" data-failed="{{_('Error')}}" data-message="{{_('Upload done, processing, please wait...')}}" method="post" enctype="multipart/form-data">
@@ -77,6 +170,7 @@
                     </form>
                   </li>
               {% endif %}
+
               {% if not g.user.is_anonymous and not simple%}
                 <li><a id="top_tasks" href="{{url_for('tasks.get_tasks_status')}}"><span class="glyphicon glyphicon-tasks"></span> <span class="hidden-sm">{{_('Tasks')}}</span></a></li>
               {% endif %}
@@ -87,6 +181,7 @@
               {% if not g.user.is_anonymous %}
               <li><a id="logout" href="{{url_for('web.logout')}}"><span class="glyphicon glyphicon-log-out"></span> <span class="hidden-sm">{{_('Logout')}}</span></a></li>
               {% endif %}
+              -->
             {% endif %}
             {% if g.allow_registration and not g.user.is_authenticated %}
             <li><a id="login" href="{{url_for('web.login')}}"><span class="glyphicon glyphicon-log-in"></span> {{_('Login')}}</a></li>
@@ -127,7 +222,7 @@
         </center>
       </div>
     {%endif%}
-    <div class="container-fluid">
+    <div class="container-fluid main-fluid">
       <div class="row-fluid">
         {% if g.user.is_authenticated or g.allow_anonymous %}
         <div class="col-sm-2 left-nav vh-100 h-100">
@@ -149,7 +244,7 @@
                 {% endfor %}
               {% if not g.user.is_anonymous %}
                 <li id="nav_createshelf" class="create-shelf"><a href="{{url_for('shelf.create_shelf')}}">{{_('Create a Shelf')}}</a></li>
-                <li id="nav_about" {% if page == 'stat' %}class="active"{% endif %}><a href="{{url_for('about.stats')}}"><span class="glyphicon glyphicon-info-sign"></span> {{_('About')}}</a></li>
+                <!-- <li id="nav_about" {% if page == 'stat' %}class="active"{% endif %}><a href="{{url_for('about.stats')}}"><span class="glyphicon glyphicon-info-sign"></span> {{_('About')}}</a></li> -->
               {% endif %}
               {% endif %}
 
