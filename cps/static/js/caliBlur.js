@@ -16,6 +16,7 @@
  */
 // Move advanced search to side-menu
 $("a[href*='advanced']").parent().insertAfter("#nav_new");
+$("body").addClass("blur");
 $("body.stat").addClass("stats");
 $("body.config").addClass("admin");
 $("body.uiconfig").addClass("admin");
@@ -28,8 +29,8 @@ $("body > div.container-fluid > div > div.col-sm-10 > div.filterheader").attr("s
 // Back button
 curHref = window.location.href.split("/");
 prevHref = document.referrer.split("/");
-$(".plexBack a").attr('href', encodeURI(document.referrer));
-
+$(".navbar-form.navbar-left")
+    .before('<div class="plexBack"><a href="' + encodeURI(document.referrer) + '"></a></div>');
 if (history.length === 1 ||
     curHref[0] +
     curHref[1] +
@@ -43,9 +44,14 @@ if (history.length === 1 ||
 
 //Weird missing a after pressing back from edit.
 setTimeout(function () {
-    $(".plexBack a").attr('href', encodeURI(document.referrer));
+    if ($(".plexBack a").length < 1) {
+        $(".plexBack").append('<a href="' + encodeURI(document.referrer) + '"></a>');
+    }
 }, 10);
 
+// Home button
+$(".plexBack").before('<div class="home-btn"></div>');
+$("a.navbar-brand").clone().appendTo(".home-btn").empty().removeClass("navbar-brand");
 /////////////////////////////////
 // Start of Book Details Work //
 ///////////////////////////////
@@ -81,6 +87,56 @@ if ($("body.book").length > 0) {
     $(".rating").insertBefore(".hr");
     $("#remove-from-shelves").insertAfter(".hr");
     $(description).appendTo(".bookinfo")
+    /* if book description is not in html format, Remove extra line breaks
+    Remove blank lines/unnecessary spaces, split by line break to array
+    Push array into .description div. If there is still a wall of text,
+    find sentences and split wall into groups of three sentence paragraphs.
+    If the book format is in html format, Keep html, but strip away inline
+    styles and empty elements */
+
+    // If text is sitting in div as text node
+    if ($(".comments:has(p)").length === 0) {
+        newdesc = description.text()
+            .replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm, "").split(/\n/);
+        $(".comments").empty();
+        $.each(newdesc, function (i, val) {
+            $("div.comments").append("<p>" + newdesc[i] + "</p>");
+        });
+        $(".comments").fadeIn(100);
+    }    //If still a wall of text create 3 sentence paragraphs.
+    if ($(".comments p").length === 1) {
+        if (description.context != undefined) {
+            newdesc = description.text()
+                .replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm, "").split(/\n/);
+        } else {
+            newdesc = description.text();
+        }
+        doc = nlp(newdesc.toString());
+        sentences = doc.map((m) => m.out("text"));
+        sentences[0] = sentences[0].replace(",", "");
+        $(".comments p").remove();
+        let size = 3;
+        let sentenceChunks = [];
+        for (var i = 0; i < sentences.length; i += size) {
+            sentenceChunks.push(sentences.slice(i, i + size));
+        }
+        let output = '';
+        $.each(sentenceChunks, function (i, val) {
+            let preOutput = '';
+            $.each(val, function (i, val) {
+                preOutput += val;
+            });
+            output += "<p>" + preOutput + "</p>";
+        });
+        $("div.comments").append(output);
+    } else {
+        $.each(description, function (i, val) {
+//      $( description[i].outerHTML ).appendTo( ".comments" );
+            $("div.comments :empty").remove();
+            $("div.comments ").attr("style", "");
+        });
+        $("div.comments").fadeIn(100);
+    }
 
     // Sexy blurred backgrounds
     cover = $(".cover img").attr("src");
@@ -125,7 +181,6 @@ if ($("body.book").length > 0) {
     $("#sendbtn").parent().addClass("sendBtn");
     $("[id*=btnGroupDrop]").parent().addClass("downloadBtn");
     $("read-in-browser").parent().addClass("readBtn");
-    $("listen-in-browser").parent().addClass("listenBtn");
     $(".downloadBtn button:first").addClass("download-text");
 
     // Move all options in book details page to the same group
@@ -139,33 +194,21 @@ if ($("body.book").length > 0) {
         .prependTo('[aria-label^="Download, send"]');
     $("#have_read_cb")
         .after('<label class="block-label readLbl" for="#have_read_cb"></label>');
-    $("#have_read_form").next("p").remove();
-    $("#have_read_form").next("p").remove();
     $("#archived_cb")
         .after('<label class="block-label readLbl" for="#archived_cb"></label>');
     $("#shelf-actions").prependTo('[aria-label^="Download, send"]');
 
-    $(".more-stuff .col-sm-12 #back").hide()
-/*        .html("&laquo; Previous")
-        .addClass("page-link")
-        .removeClass("btn btn-default")
-        .prependTo('[aria-label^="Download, send"]');*/
 
     // Move dropdown lists higher in dom, replace bootstrap toggle with own toggle.
     $('ul[aria-labelledby="read-in-browser"]').insertBefore(".blur-wrapper").addClass("readinbrowser-drop");
-    $('ul[aria-labelledby="listen-in-browser"]').insertBefore(".blur-wrapper").addClass("readinbrowser-drop");
     $('ul[aria-labelledby="send-to-kereader"]').insertBefore(".blur-wrapper").addClass("sendtoereader-drop");
     $(".leramslist").insertBefore(".blur-wrapper");
     $('ul[aria-labelledby="btnGroupDrop1"]').insertBefore(".blur-wrapper").addClass("leramslist");
     $("#add-to-shelves").insertBefore(".blur-wrapper");
-    $("#back")
+
     $("#read-in-browser").click(function () {
         $(".readinbrowser-drop").toggle();
     });
-    $("#listen-in-browser").click(function () {
-        $(".readinbrowser-drop").toggle();
-    });
-
 
     $(".downloadBtn").click(function () {
         $(".leramslist").toggle();
@@ -277,11 +320,19 @@ $(document).mouseup(function (e) {
     });
 });
 
+// Split path name to array and remove blanks
+url = window.location.pathname
+
 // Move create shelf
 $("#nav_createshelf").prependTo(".your-shelves");
 
-// Move About link it the profile dropdown
-$(".profileDropli #top_user").parent().after($("#nav_about").addClass("dropdown"))
+// Create drop-down for profile and move elements to it
+$("#main-nav")
+    .prepend('<li class="dropdown"><a href="#" class="dropdown-toggle profileDrop" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span></a><ul class="dropdown-menu profileDropli"></ul></li>');
+$("#top_user").parent().addClass("dropdown").appendTo(".profileDropli");
+$("#nav_about").addClass("dropdown").appendTo(".profileDropli");
+$("#register").parent().addClass("dropdown").appendTo(".profileDropli");
+$("#logout").parent().addClass("dropdown").appendTo(".profileDropli");
 
 // Remove the modals except from some areas where they are needed
 bodyClass = $("body").attr("class").split(" ");
@@ -320,6 +371,31 @@ $(document).on("click", ".dropdown-toggle", function () {
     });
 });
 
+// Fade out content on page unload
+// delegate all clicks on "a" tag (links)
+/*$(document).on("click", "a:not(.btn-toolbar a, a[href*='shelf/remove'], .identifiers a, .bookinfo , .btn-group > a, #add-to-shelves a, #book-list a, .stat.blur a )", function () {
+
+    // get the href attribute
+    var newUrl = $(this).attr("href");
+
+    // veryfy if the new url exists or is a hash
+    if (!newUrl || newUrl[0] === "#") {
+        // set that hash
+        location.hash = newUrl;
+        return;
+    }
+
+    now, fadeout the html (whole page)
+      $( '.blur-wrapper' ).fadeOut(250);
+    $(".row-fluid .col-sm-10").fadeOut(500,function () {
+        // when the animation is complete, set the new location
+        location = newUrl;
+    });
+
+    // prevent the default browser behavior.
+    return false;
+});*/
+
 // Collapse long text into read-more
 $("div.comments").readmore({
     collapsedHeight: 134,
@@ -331,13 +407,6 @@ $("div.comments").readmore({
 /////////////////////////////////
 //     End of Global Work     //
 ///////////////////////////////
-
-// Search Results
-if($("body.search").length > 0) {
-  $('div[aria-label="Add to shelves"]').click(function () {
-    $("#add-to-shelves").toggle();
-  });
-}
 
 // Advanced Search Results
 if($("body.advsearch").length > 0) {
@@ -389,8 +458,6 @@ if ($("body.author").length > 0) {
     }
 }
 
-// Split path name to array and remove blanks
-url = window.location.pathname
 // Ereader Page - add class to iframe body on ereader page after it loads.
 backurl = "../../book/" + url[2]
 $("body.epub #title-controls")
@@ -473,7 +540,6 @@ if ($("body.shelf").length > 0) {
 // Rest of Tooltips
 $(".home-btn > a").attr({
     "data-toggle": "tooltip",
-    "href": $(".navbar-brand")[0].href,
     "title": $(document.body).attr("data-text"),    // Home
     "data-placement": "bottom"
 })
@@ -600,7 +666,7 @@ $("#sendbtn").attr({
 
 $("#sendbtn2").attr({
     "data-toggle-two": "tooltip",
-    "title": $("#sendbtn2").text(),                 // "Send to eReader",
+    "title": $("#sendbtn2").text(),                 // "Send to E-Reader",
     "data-placement": "bottom",
     "data-viewport": ".btn-toolbar"
 })
@@ -639,7 +705,6 @@ if ($("body.epub").length === 0) {
 }
 
 $("#read-in-browser a").attr("target", "");
-$("#listen-in-browser a").attr("target", "");
 
 if ($(".edit-shelf-btn").length > 1) {
     $(".edit-shelf-btn:first").remove();
