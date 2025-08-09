@@ -420,8 +420,12 @@ def render_books_list(data, sort_param, book_id, page):
                                                                 db.books_series_link,
                                                                 db.Books.id == db.books_series_link.c.book,
                                                                 db.Series)
+        # Provide library metrics for display in header (used when title == 'Books')
+        bookcounter = calibre_db.session.query(db.Books).count()
+        authorcounter = calibre_db.session.query(db.Authors).count()
         return render_title_template('index.html', random=random, entries=entries, pagination=pagination,
-                                     title=_("Books"), page=website, order=order[1])
+                                     title=_("Books"), page=website, order=order[1],
+                                     bookcounter=bookcounter, authorcounter=authorcounter)
 
 
 def render_rated_books(page, book_id, order):
